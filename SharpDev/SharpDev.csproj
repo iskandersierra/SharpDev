@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\DistributedSystemComponentAttribute.cs" />
+    <Compile Include="Annotations\DomainAggregateAttribute.cs" />
+    <Compile Include="Annotations\DomainCommandAttribute.cs" />
+    <Compile Include="Annotations\DomainEventAttribute.cs" />
+    <Compile Include="Annotations\DomainProcessAttribute.cs" />
+    <Compile Include="Annotations\DomainProjectionAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
