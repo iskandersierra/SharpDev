@@ -1,10 +1,10 @@
 ﻿using System;
 using SharpDev.Annotations;
 
-namespace SharpContacts.Commands
+namespace SharpContacts.Events
 {
-    [DomainCommand(nameof(SetContactProperty), "Set contact property", ContactsCommandsConstants.SetContactPropertyUri, "0.1")]
-    public class SetContactProperty : ContactPropertyCommand
+    [DomainEvent(nameof(ContactPropertySet), "Contact property has been set", ContactsEventsConstants.ContactPropertySetUri, "0.1")]
+    public class ContactPropertySet : ContactPropertyEvent
     {
         /// <summary>
         /// Indicates the type of the property

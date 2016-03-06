@@ -4,6 +4,6 @@ namespace SharpContacts.Commands
 {
     public abstract class ContactCommand
     {
-        public string UniqueId { get; set; }
+        public string ContactId { get; set; }
     }
 }
