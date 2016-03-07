@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SharpContacts.Commands;
 using SharpContacts.Events;
 using SharpDev.Annotations;
 
@@ -20,7 +21,7 @@ namespace SharpContacts.Aggregates
         public HashSet<string> Types { get; private set; }
         public Dictionary<string, ContactProperty> Properties { get; private set; }
 
-        #region [ Event rehydration ]
+        #region [ Rehydration ]
 
         public void On(ContactActivated ev)
         {
@@ -79,6 +80,60 @@ namespace SharpContacts.Aggregates
             Types = new HashSet<string>(snapshot.Types ?? Enumerable.Empty<string>());
             Properties = snapshot.Properties?.ToDictionary(p => p.PropertyId, p => new ContactProperty(p)) 
                 ?? new Dictionary<string, ContactProperty>();
+        }
+
+        #endregion
+
+        #region [ Command handling ]
+
+        public IEnumerable<object> When(ActivateContact cmd)
+        {
+            if (!IsActive)
+                yield return new ContactActivated {ContactId = cmd.ContactId};
+        }
+
+        public IEnumerable<object> When(DeactivateContact cmd)
+        {
+            if (IsActive)
+                yield return new ContactDeactivated {ContactId = cmd.ContactId};
+        }
+
+        public IEnumerable<object> When(ContactTypeSet cmd)
+        {
+            if (!Types.Contains(cmd.ContactType))
+                yield return new ContactTypeSet { ContactId = cmd.ContactId, ContactType = cmd.ContactType };
+        }
+
+        public IEnumerable<object> When(ContactTypeUnset cmd)
+        {
+            if (Types.Contains(cmd.ContactType))
+                yield return new ContactTypeUnset { ContactId = cmd.ContactId, ContactType = cmd.ContactType };
+        }
+
+        public IEnumerable<object> When(SetContactProperty cmd)
+        {
+            yield return new ContactPropertySet
+            {
+                ContactId = cmd.ContactId,
+                PropertyId = cmd.PropertyId,
+                Type = cmd.Type,
+                Subtype = cmd.Subtype,
+                Value = cmd.Value,
+                NotBefore = cmd.NotBefore,
+                NotAfter = cmd.NotAfter,
+                CultureName = cmd.CultureName,
+                Preferred = cmd.Preferred,
+                ContentType = cmd.ContentType,
+                Where = cmd.Where,
+            };
+        }
+
+        public IEnumerable<object> When(UnsetContactProperty cmd)
+        {
+            if (Properties.ContainsKey(cmd.PropertyId))
+            {
+                yield return new ContactPropertyUnset {ContactId = cmd.ContactId, PropertyId = cmd.PropertyId};
+            }
         }
 
         #endregion

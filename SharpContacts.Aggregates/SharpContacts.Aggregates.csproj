@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpContacts.Commands\SharpContacts.Commands.csproj">
+      <Project>{935794EE-292D-493A-8289-AAED9D4AA842}</Project>
+      <Name>SharpContacts.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpContacts.Events\SharpContacts.Events.csproj">
       <Project>{B249CB23-2F0A-487D-BDEF-79519EBC2352}</Project>
       <Name>SharpContacts.Events</Name>
