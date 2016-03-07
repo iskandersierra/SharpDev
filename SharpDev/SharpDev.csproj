@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\AggregateIdentifierAttribute.cs" />
     <Compile Include="Annotations\DistributedSystemComponentAttribute.cs" />
     <Compile Include="Annotations\DomainAggregateAttribute.cs" />
     <Compile Include="Annotations\DomainCommandAttribute.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="Annotations\DomainMessageAttribute.cs" />
     <Compile Include="Annotations\DomainProcessAttribute.cs" />
     <Compile Include="Annotations\DomainProjectionAttribute.cs" />
+    <Compile Include="Annotations\EntityIdentifierAttribute.cs" />
     <Compile Include="Messages\ErrorMessage.cs" />
     <Compile Include="Messages\MessageConstants.cs" />
     <Compile Include="Messages\SuccessMessage.cs" />

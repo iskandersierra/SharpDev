@@ -41,7 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contact.cs" />
+    <Compile Include="ContactProperty.cs" />
+    <Compile Include="ContactPropertySnapshot.cs" />
     <Compile Include="ContactsCommandsConstants.cs" />
+    <Compile Include="ContactSnapshot.cs" />
     <Compile Include="ContactsSnapshotsConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
