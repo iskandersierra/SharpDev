@@ -48,12 +48,16 @@
     <Compile Include="Annotations\DomainMessageAttribute.cs" />
     <Compile Include="Annotations\DomainProcessAttribute.cs" />
     <Compile Include="Annotations\DomainProjectionAttribute.cs" />
+    <Compile Include="Annotations\DomainViewAttribute.cs" />
     <Compile Include="Annotations\EntityIdentifierAttribute.cs" />
     <Compile Include="Messaging\AcceptMessage.cs" />
     <Compile Include="Messaging\CommandEnvelope.cs" />
     <Compile Include="Messaging\ErrorMessage.cs" />
     <Compile Include="Messaging\MessageConstants.cs" />
     <Compile Include="Messaging\SuccessMessage.cs" />
+    <Compile Include="Modeling\CommandCondition.cs" />
+    <Compile Include="Modeling\CommandPostcondition.cs" />
+    <Compile Include="Modeling\CommandPrecondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

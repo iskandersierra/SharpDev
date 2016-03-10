@@ -1,0 +1,12 @@
+﻿
+nomenclator ContactPropertyType on http://models.imodelsoft.com/samples/enterprise/customer-relationship/contact-management/
+	version 0.1
+	caption Contact property types
+	description Contacts feature allow to manage a collection of contact parties like people, companies, groups, etc. with a variety of contact information like name, email, phone numbers, department, employer, etc.
+	author Iskander Sierra
+
+	state Main (
+		unique Name,
+		BaseType? is one of (string by default, integer, decimal, boolean, datetime, timelapse),
+		Caption,
+	)

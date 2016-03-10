@@ -9,6 +9,7 @@
         public const string EventsBaseUri = ContactsBaseUri + "event/";
         public const string AggregatesBaseUri = ContactsBaseUri + "aggregate/";
         public const string SnapshotsBaseUri = ContactsBaseUri + "snapshot/";
+        public const string ViewsBaseUri = ContactsBaseUri + "view/";
         public const string ProjectionsBaseUri = ContactsBaseUri + "projection/";
         public const string ProcessesBaseUri = ContactsBaseUri + "process/";
         public const string QueriesBaseUri = ContactsBaseUri + "query/";

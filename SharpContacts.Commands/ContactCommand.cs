@@ -1,4 +1,5 @@
-﻿using SharpDev.Annotations;
+﻿using FluentValidation;
+using SharpDev.Annotations;
 
 namespace SharpContacts.Commands
 {
@@ -6,5 +7,13 @@ namespace SharpContacts.Commands
     {
         [AggregateIdentifier]
         public string ContactId { get; set; }
+    }
+
+    public class ContactCommandValidator : AbstractValidator<ContactCommand>
+    {
+        public ContactCommandValidator()
+        {
+            RuleFor(e => e.ContactId).NotEmpty();
+        }
     }
 }

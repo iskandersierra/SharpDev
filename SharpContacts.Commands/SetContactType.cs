@@ -1,4 +1,5 @@
-﻿using SharpDev.Annotations;
+﻿using FluentValidation;
+using SharpDev.Annotations;
 
 namespace SharpContacts.Commands
 {
@@ -6,5 +7,13 @@ namespace SharpContacts.Commands
     public class SetContactType : ContactCommand
     {
         public string ContactType { get; set; }
+    }
+
+    public class SetContactTypeValidator : AbstractValidator<SetContactType>
+    {
+        public SetContactTypeValidator()
+        {
+            RuleFor(e => e.ContactType).NotEmpty();
+        }
     }
 }

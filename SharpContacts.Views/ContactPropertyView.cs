@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Globalization;
-using FluentValidation;
-using SharpDev.Annotations;
 
-namespace SharpContacts.Commands
+namespace SharpContacts.Views
 {
-    [DomainCommand(nameof(SetContactProperty), "Set contact property", ContactsCommandsConstants.SetContactPropertyUri, "0.1")]
-    public class SetContactProperty : ContactPropertyCommand
+    public class ContactPropertyView
     {
+        public string PropertyId { get; set; }
+
         /// <summary>
         /// Indicates the type of the property
         /// </summary>
@@ -45,28 +43,4 @@ namespace SharpContacts.Commands
         /// </summary>
         public string Where { get; set; }
     }
-
-    public class SetContactPropertyValidator : AbstractValidator<SetContactProperty>
-    {
-        public SetContactPropertyValidator()
-        {
-            RuleFor(e => e.Type).NotEmpty();
-            RuleFor(e => e.Value).NotEmpty();
-            RuleFor(e => e.CultureName).Must(BeAValidCultureName).When(e => !string.IsNullOrEmpty(e.CultureName));
-        }
-
-        private bool BeAValidCultureName(string cultureName)
-        {
-            try
-            {
-                CultureInfo.GetCultureInfo(cultureName);
-                return true;
-            }
-            catch (CultureNotFoundException)
-            {
-                return false;
-            }
-        }
-    }
-
 }
