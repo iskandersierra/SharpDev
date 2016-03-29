@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWebApi", "SharpWebApi\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDev.Azure.Storage", "SharpDev.Azure.Storage\SharpDev.Azure.Storage.csproj", "{4C1EEAD8-1D39-49BB-9AE1-3B01F54BD699}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDev.JsonNet", "SharpDev.JsonNet\SharpDev.JsonNet.csproj", "{03592CE1-3E27-417B-B14C-0F5B3BFA05FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4C1EEAD8-1D39-49BB-9AE1-3B01F54BD699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C1EEAD8-1D39-49BB-9AE1-3B01F54BD699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C1EEAD8-1D39-49BB-9AE1-3B01F54BD699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03592CE1-3E27-417B-B14C-0F5B3BFA05FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03592CE1-3E27-417B-B14C-0F5B3BFA05FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03592CE1-3E27-417B-B14C-0F5B3BFA05FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03592CE1-3E27-417B-B14C-0F5B3BFA05FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
