@@ -1,31 +1,23 @@
-﻿using System;
-using System.Buffers;
+﻿using System.Buffers;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Blob;
-using SharpDev.Serialization;
 
 namespace SharpDev.Azure.Storage.Serialization
 {
-    public class BlockBlobArrayPoolStreamProvider : 
-        IReadStreamProvider,
-        IWriteStreamProvider
+    public class BlockBlobArrayPoolStreamProvider :
+        BlockBlobStreamProviderBase
     {
-        public CloudBlockBlob BlockBlob { get; }
-
         public ArrayPool<byte> ArrayPool { get; set; }
 
         public int InitialCapacity { get; set; } = 4096;
 
-        public BlockBlobArrayPoolStreamProvider(CloudBlockBlob blockBlob)
+        public BlockBlobArrayPoolStreamProvider(CloudBlockBlob blockBlob) : base(blockBlob)
         {
-            if (blockBlob == null) throw new ArgumentNullException(nameof(blockBlob));
-
-            BlockBlob = blockBlob;
         }
 
-        public async Task<AsyncDisposableValue<Stream>> OpenReadAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<AsyncDisposableValue<Stream>> OpenReadAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             if (!await BlockBlob.ExistsAsync(cancellationToken))
                 throw new ResourceNotFoundException("Metadata not found for this store");
@@ -43,7 +35,7 @@ namespace SharpDev.Azure.Storage.Serialization
             return new AsyncDisposableValue<Stream>(stream, async () => stream.Dispose());
         }
 
-        public async Task<AsyncDisposableValue<Stream>> OpenWriteAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<AsyncDisposableValue<Stream>> OpenWriteAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var stream = new ArrayPoolMemoryStream(InitialCapacity, ArrayPool ?? ArrayPool<byte>.Shared);
 

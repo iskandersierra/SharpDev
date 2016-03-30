@@ -26,9 +26,11 @@ namespace SharpDev.Serialization
             var stream = await ReadStreamProvider.OpenReadAsync(cancellationToken);
             try
             {
+                var parameters = await ReadStreamProvider.ReadParametersAsync(cancellationToken);
+
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var result = await Serializer.DeserializeAsync<T>(stream.Value, cancellationToken);
+                var result = await Serializer.DeserializeAsync<T>(stream.Value, parameters, cancellationToken);
 
                 return result;
             }
@@ -43,7 +45,9 @@ namespace SharpDev.Serialization
             var stream = await WriteStreamProvider.OpenWriteAsync(cancellationToken);
             try
             {
-                await Serializer.SerializeAsync(metadata, stream.Value, cancellationToken);
+                var parameters = await Serializer.SerializeAsync(metadata, stream.Value, cancellationToken);
+
+                await WriteStreamProvider.WriteParametersAsync(parameters, CancellationToken.None);
             }
             finally
             {
@@ -74,9 +78,11 @@ namespace SharpDev.Serialization
             var stream = await ReadStreamProvider.OpenReadAsync(cancellationToken);
             try
             {
+                var parameters = await ReadStreamProvider.ReadParametersAsync(cancellationToken);
+
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var result = await Serializer.DeserializeAsync<T>(stream.Value, cancellationToken);
+                var result = await Serializer.DeserializeAsync<T>(stream.Value, parameters, cancellationToken);
 
                 return result;
             }
@@ -91,7 +97,9 @@ namespace SharpDev.Serialization
             var stream = await WriteStreamProvider.OpenWriteAsync(cancellationToken);
             try
             {
-                await Serializer.SerializeAsync(metadata, stream.Value, cancellationToken);
+                var parameters = await Serializer.SerializeAsync(metadata, stream.Value, cancellationToken);
+
+                await WriteStreamProvider.WriteParametersAsync(parameters, CancellationToken.None);
             }
             finally
             {

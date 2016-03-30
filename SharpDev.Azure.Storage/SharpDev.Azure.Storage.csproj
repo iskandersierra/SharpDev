@@ -134,12 +134,7 @@
     <Compile Include="Serialization\BlockBlobArrayPoolStreamProvider.cs" />
     <Compile Include="Serialization\BlockBlobMemoryStreamProvider.cs" />
     <Compile Include="Serialization\BlockBlobOpenStreamProvider.cs" />
-    <Compile Include="System\Buffers\ArrayPool.cs" />
-    <Compile Include="System\Buffers\ArrayPoolEventSource.cs" />
-    <Compile Include="System\Buffers\DefaultArrayPool.cs" />
-    <Compile Include="System\Buffers\DefaultArrayPoolBucket.cs" />
-    <Compile Include="System\Buffers\Utilities.cs" />
-    <Compile Include="System\IO\ArrayPoolMemoryStream.cs" />
+    <Compile Include="Serialization\BlockBlobStreamProviderBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpDev\SharpDev.csproj">

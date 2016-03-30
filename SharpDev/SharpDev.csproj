@@ -65,6 +65,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -85,6 +86,7 @@
     <Compile Include="DisposableValue.cs" />
     <Compile Include="EventSourcing\EventCommitEnvelope.cs" />
     <Compile Include="Serialization\FileStreamProvider.cs" />
+    <Compile Include="Serialization\CompressSerializer.cs" />
     <Compile Include="Serialization\IMetadataStore.cs" />
     <Compile Include="EventSourcing\IEventStream.cs" />
     <Compile Include="EventSourcing\ObjectType.cs" />
@@ -95,9 +97,17 @@
     <Compile Include="Serialization\IReadStreamProvider.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\ITypedMetadataStore.cs" />
+    <Compile Include="Serialization\ITypedSerializer.cs" />
     <Compile Include="Serialization\IWriteStreamProvider.cs" />
+    <Compile Include="Serialization\SerializerParameters.cs" />
     <Compile Include="Serialization\StreamMetadataStore.cs" />
     <Compile Include="Serialization\TypedStreamMetadataStore.cs" />
+    <Compile Include="System\Buffers\ArrayPool.cs" />
+    <Compile Include="System\Buffers\ArrayPoolEventSource.cs" />
+    <Compile Include="System\Buffers\DefaultArrayPool.cs" />
+    <Compile Include="System\Buffers\DefaultArrayPoolBucket.cs" />
+    <Compile Include="System\Buffers\Utilities.cs" />
+    <Compile Include="System\IO\ArrayPoolMemoryStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Annotations\" />

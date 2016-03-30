@@ -27,6 +27,11 @@ namespace SharpDev.Serialization
             return Task.FromResult(new AsyncDisposableValue<Stream>(stream, async () => stream.Dispose()));
         }
 
+        public Task<SerializerParameters> ReadParametersAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.FromResult(default(SerializerParameters));
+        }
+
         public Task<AsyncDisposableValue<Stream>> OpenWriteAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             if (!FileInfo.Exists)
@@ -41,6 +46,11 @@ namespace SharpDev.Serialization
                 await stream.FlushAsync(CancellationToken.None);
                 stream.Dispose();
             }));
+        }
+
+        public Task WriteParametersAsync(SerializerParameters parameters, CancellationToken cancellationToken = new CancellationToken())
+        {
+            return Task.CompletedTask;
         }
     }
 }

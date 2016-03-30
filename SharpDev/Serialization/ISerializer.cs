@@ -6,13 +6,8 @@ namespace SharpDev.Serialization
 {
     public interface ISerializer
     {
-        Task SerializeAsync(object value, Stream stream, CancellationToken cancellationToken = default(CancellationToken));
-        Task<object> DeserializeAsync(Stream stream, CancellationToken cancellationToken = default(CancellationToken));
-    }
+        Task<SerializerParameters> SerializeAsync(object value, Stream stream, CancellationToken cancellationToken = default(CancellationToken));
 
-    public interface ITypedSerializer
-    {
-        Task SerializeAsync<T>(T value, Stream stream, CancellationToken cancellationToken = default(CancellationToken));
-        Task<T> DeserializeAsync<T>(Stream stream, CancellationToken cancellationToken = default(CancellationToken));
+        Task<object> DeserializeAsync(Stream stream, SerializerParameters parameters, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

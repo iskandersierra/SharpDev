@@ -7,22 +7,16 @@ using SharpDev.Serialization;
 
 namespace SharpDev.Azure.Storage.Serialization
 {
-    public class BlockBlobMemoryStreamProvider : 
-        IReadStreamProvider,
-        IWriteStreamProvider
+    public class BlockBlobMemoryStreamProvider :
+        BlockBlobStreamProviderBase
     {
-        public CloudBlockBlob BlockBlob { get; }
-
         public int InitialCapacity { get; set; } = 4096;
 
-        public BlockBlobMemoryStreamProvider(CloudBlockBlob blockBlob)
+        public BlockBlobMemoryStreamProvider(CloudBlockBlob blockBlob) : base(blockBlob)
         {
-            if (blockBlob == null) throw new ArgumentNullException(nameof(blockBlob));
-
-            BlockBlob = blockBlob;
         }
 
-        public async Task<AsyncDisposableValue<Stream>> OpenReadAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<AsyncDisposableValue<Stream>> OpenReadAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             if (!await BlockBlob.ExistsAsync(cancellationToken))
                 throw new ResourceNotFoundException("Metadata not found for this store");
@@ -40,7 +34,7 @@ namespace SharpDev.Azure.Storage.Serialization
             return new AsyncDisposableValue<Stream>(stream, async () => stream.Dispose());
         }
 
-        public async Task<AsyncDisposableValue<Stream>> OpenWriteAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<AsyncDisposableValue<Stream>> OpenWriteAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var stream = new MemoryStream(InitialCapacity);
 
