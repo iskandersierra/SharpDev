@@ -102,24 +102,21 @@ namespace SharpDev.Serialization
 
         private void CheckParameters(SerializerParameters parameters, out CompressAlgorithm algorithm)
         {
-            if (parameters != null)
+            if (!string.IsNullOrEmpty(parameters?.ContentEncoding))
             {
-                if (!string.IsNullOrEmpty(parameters.ContentEncoding))
+                switch (parameters.ContentEncoding)
                 {
-                    switch (parameters.ContentEncoding)
-                    {
-                        case "identity":
-                            algorithm = CompressAlgorithm.Identity;
-                            return;
-                        case "deflate":
-                            algorithm = CompressAlgorithm.Deflate;
-                            return;
-                        case "gzip":
-                            algorithm = CompressAlgorithm.GZip;
-                            return;
-                        default:
-                            throw new NotSupportedException("Compression algorithm not supported");
-                    }
+                    case "identity":
+                        algorithm = CompressAlgorithm.Identity;
+                        return;
+                    case "deflate":
+                        algorithm = CompressAlgorithm.Deflate;
+                        return;
+                    case "gzip":
+                        algorithm = CompressAlgorithm.GZip;
+                        return;
+                    default:
+                        throw new NotSupportedException("Compression algorithm not supported");
                 }
             }
 
