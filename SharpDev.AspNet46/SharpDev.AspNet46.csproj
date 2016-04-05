@@ -52,11 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpCommandTranslator.cs" />
-    <Compile Include="IHttpCommandMediaTypeFinder.cs" />
-    <Compile Include="IHttpCommandTranslator.cs" />
-    <Compile Include="MediaTypeInfo.cs" />
+    <Compile Include="AspNetExtensions.cs" />
+    <Compile Include="DefaultHttpTenantFinder.cs" />
+    <Compile Include="IHttpCommandParser.cs" />
+    <Compile Include="IHttpCommandParserProvider.cs" />
+    <Compile Include="IHttpTenantFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleHttpCommandParserProvider.cs" />
     <Compile Include="TranslationResult.cs" />
     <Compile Include="TranslationResultType.cs" />
   </ItemGroup>
