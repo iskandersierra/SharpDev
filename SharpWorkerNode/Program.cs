@@ -10,12 +10,16 @@ namespace SharpWorkerNode
 {
     class Program
     {
+        private static ILogger Log = LogManager.GetCurrentClassLogger();
+
         static void Main(string[] args)
         {
             var config = ConfigurationFactory.Load();
-            config = config.WithFallback(GetFallbackConfig());
 
-            LogManager.GetCurrentClassLogger().Trace(config);
+            var serviceName = config.GetString("service.name");
+            var displayName = config.GetString("service.display");
+            var instanceName = config.GetString("service.instance");
+            var description = config.GetString("service.description");
 
             ConfigExceptionHandling(config);
 
@@ -36,10 +40,10 @@ namespace SharpWorkerNode
 
                 //h.EnablePauseAndContinue();
                 //h.EnableShutdown();
-                h.SetServiceName(config.GetString("service.name"));
-                h.SetDisplayName(config.GetString("service.display"));
-                h.SetInstanceName(config.GetString("service.instance"));
-                h.SetDescription(config.GetString("service.description"));
+                h.SetServiceName(serviceName);
+                h.SetDisplayName(displayName);
+                h.SetInstanceName(instanceName);
+                h.SetDescription(description);
                 h.RunAsLocalService();
                 h.StartAutomatically();
                 h.EnableServiceRecovery(r =>
@@ -67,7 +71,16 @@ namespace SharpWorkerNode
                 {
                     var ex = e.ExceptionObject as Exception;
                     if (ex != null)
-                        ErrorStore.LogExceptionWithoutContext(ex);
+                    {
+                        try
+                        {
+                            ErrorStore.LogExceptionWithoutContext(ex);
+                        }
+                        catch (Exception)
+                        {
+                            Log.Fatal(ex);
+                        }
+                    }
                 }
             };
 
@@ -78,7 +91,16 @@ namespace SharpWorkerNode
                 {
                     var ex = e.Exception;
                     if (ex != null)
-                        ErrorStore.LogExceptionWithoutContext(ex);
+                    {
+                        try
+                        {
+                            ErrorStore.LogExceptionWithoutContext(ex);
+                        }
+                        catch (Exception)
+                        {
+                            Log.Info(ex);
+                        }
+                    }
                 }
             };
         }

@@ -22,7 +22,7 @@ namespace SharpWorkerNode
 
         public bool Start()
         {
-            _system = ActorSystem.Create(_config.GetString("actor-system-name"), _config);
+            _system = ActorSystem.Create(_config.GetString("akka.actor-system-name"), _config);
 
             return true;
         }
@@ -32,7 +32,8 @@ namespace SharpWorkerNode
             if (_system != null)
             {
                 _system.Dispose();
-                _system.WhenTerminated.Wait(TimeSpan.FromSeconds(_config.GetInt("service.wait-stop")));
+                var waitStop = _config.GetTimeSpan("service.wait-stop");
+                bool timedout = _system.WhenTerminated.Wait(waitStop);
             }
 
             return true;
