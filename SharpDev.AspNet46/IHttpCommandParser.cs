@@ -9,4 +9,9 @@ namespace SharpDev.AspNet46
     {
         Task<ParseCommandResult> ParseAsync(HttpRequestMessage request, HttpRequestContext requestContext, CancellationToken ct);
     }
+
+    public interface IHttpCommandTypeExtractor
+    {
+        Task<MediaTypeInfo> ExtractCommandTypeAsync(HttpRequestMessage request, HttpRequestContext requestContext, CancellationToken ct);
+    }
 }

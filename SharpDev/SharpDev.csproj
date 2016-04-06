@@ -108,6 +108,7 @@
     <Compile Include="Serialization\ITypedMetadataStore.cs" />
     <Compile Include="Serialization\ITypedSerializer.cs" />
     <Compile Include="Serialization\IWriteStreamProvider.cs" />
+    <Compile Include="Serialization\MediaTypeInfo.cs" />
     <Compile Include="Serialization\ParseCommandResult.cs" />
     <Compile Include="Serialization\SerializerParameters.cs" />
     <Compile Include="Serialization\StreamMetadataStore.cs" />
