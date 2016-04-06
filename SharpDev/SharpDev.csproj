@@ -86,6 +86,7 @@
     <Compile Include="DelegateDisposable.cs" />
     <Compile Include="DisposableValue.cs" />
     <Compile Include="EventSourcing\EventCommitEnvelope.cs" />
+    <Compile Include="EventSourcing\ICommandSenderProvider.cs" />
     <Compile Include="Messaging\CommandEnvelope.cs" />
     <Compile Include="Messaging\ICommandTranslator.cs" />
     <Compile Include="Messaging\ICommandTranslatorProvider.cs" />

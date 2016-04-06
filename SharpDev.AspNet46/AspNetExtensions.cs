@@ -29,5 +29,12 @@ namespace SharpDev.AspNet46
                 modelState.AddModelError("", error);
             return modelState;
         }
+
+        public static ModelStateDictionary ToModelStateErrors(this string error, ModelStateDictionary modelState = null)
+        {
+            modelState = modelState ?? new ModelStateDictionary();
+            modelState.AddModelError("", error);
+            return modelState;
+        }
     }
 }
