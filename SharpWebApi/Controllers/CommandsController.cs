@@ -38,6 +38,8 @@ namespace SharpWebApi.Controllers
             if (tenantId == null)
                 return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Forbidden, "Unknown Tenant".ToModelStateErrors()));
 
+            //var multi = await Request.Content.ReadAsMultipartAsync();
+
             // Parse incomming request as a command schema
             var parser = await ParserProvider.GetParserAsync(tenantId, ct);
             if (parser == null)

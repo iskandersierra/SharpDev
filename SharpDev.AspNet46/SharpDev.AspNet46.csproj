@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspNetExtensions.cs" />
+    <Compile Include="DefaultHttpCommandParser.cs" />
     <Compile Include="DefaultHttpTenantFinder.cs" />
     <Compile Include="IHttpCommandParser.cs" />
     <Compile Include="IHttpCommandParserProvider.cs" />
