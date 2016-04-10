@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncDisposableValue.cs" />
+    <Compile Include="Cqrs\CommandHandlerContext.cs" />
+    <Compile Include="Cqrs\EventHandlerContext.cs" />
+    <Compile Include="Cqrs\EventHandlerResult.cs" />
     <Compile Include="DelegateDisposable.cs" />
     <Compile Include="DisposableValue.cs" />
     <Compile Include="EventSourcing\EventCommitEnvelope.cs" />

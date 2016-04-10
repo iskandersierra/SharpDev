@@ -1,0 +1,45 @@
+﻿module SharpDev.Samples.Accounting {
+	
+	aggregate Account {
+		state new {
+			event created (owner: string) => open (owner = owner, balance = 0.0)
+
+			command create (owner: string) {
+				requires owner != null "Owner cannot be empty"
+				event created (owner = owner) 
+			}
+		}
+		state open (owner: string, balance: double) {
+			invariant balance >= 0.0 "Balance must be non negative"
+			invariant owner != null "Owner cannot be empty"
+
+			event deposited (amount: double) => (balance = balance + amount)
+			event withdrawn (amount: double) => (balance = balance - amount)
+			event closed => closed
+
+			command deposit (amount: double) {
+				requires AmountMustBePositive(amount)
+				requires AmountMustHaveTwoDecimalPlaces(amount)
+				event deposited (amount = amount)
+			}
+			command withdraw (amount: double) {
+				requires AmountMustBePositive(amount)
+				requires AmountMustHaveTwoDecimalPlaces(amount)
+				requires balance >= amount "Cannot withdraw more than the available balance"
+				event withdrawn (amount = amount)
+			}
+			command close {
+				requires balance = 0.00 "Account balance must be empty"
+				event closed
+			}
+		}
+		state closed
+
+		validation AmountMustBePositive(amount: double) => amount >= 0.01 "amount must be positive"
+		validation AmountMustHaveTwoDecimalPlaces(amount: double) => Math.Round(amount, 2) = amount "amount must have two decimal places at most"
+	}
+
+	interaction Transfer (source: SourceAccount, destination: DestinationAccount, amount: double) {
+		...
+	}
+}
