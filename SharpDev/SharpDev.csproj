@@ -89,6 +89,7 @@
     <Compile Include="DelegateDisposable.cs" />
     <Compile Include="DisposableValue.cs" />
     <Compile Include="EventSourcing\EventCommitEnvelope.cs" />
+    <Compile Include="EventSourcing\ICommandSenderProvider.cs" />
     <Compile Include="Messaging\CommandEnvelope.cs" />
     <Compile Include="Messaging\ICommandTranslator.cs" />
     <Compile Include="Messaging\ICommandTranslatorProvider.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Serialization\ITypedMetadataStore.cs" />
     <Compile Include="Serialization\ITypedSerializer.cs" />
     <Compile Include="Serialization\IWriteStreamProvider.cs" />
+    <Compile Include="Serialization\MediaTypeInfo.cs" />
     <Compile Include="Serialization\ParseCommandResult.cs" />
     <Compile Include="Serialization\SerializerParameters.cs" />
     <Compile Include="Serialization\StreamMetadataStore.cs" />

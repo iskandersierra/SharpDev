@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpDev
 {
@@ -55,6 +57,7 @@ namespace SharpDev
         }
         #endregion [ WithValue ]
 
+        #region [ IsEmpty/IsNotEmpty ]
         public static bool IsEmpty(this object value)
         {
             if (ReferenceEquals(value, null)) return true;
@@ -70,5 +73,79 @@ namespace SharpDev
         {
             return !value.IsEmpty();
         }
+        #endregion [ IsEmpty/IsNotEmpty ]
+
+        #region [ IsOneOf/IsNotOneOf ]
+        public static bool IsOneOf<T>(this T value, IEqualityComparer<T> comparer, params T[] values)
+        {
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+            if (values == null) return false;
+            return values.Any(v => comparer.Equals(v, value));
+        }
+        public static bool IsOneOf<T>(this T value, params T[] values)
+        {
+            return IsOneOf(value, EqualityComparer<T>.Default, values);
+        }
+        public static bool IsOneOf<T>(this T value, IEqualityComparer<T> comparer, T value1)
+        {
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+            return comparer.Equals(value1, value);
+        }
+        public static bool IsOneOf<T>(this T value, T value1)
+        {
+            return IsOneOf(value, EqualityComparer<T>.Default, value1);
+        }
+        public static bool IsOneOf<T>(this T value, IEqualityComparer<T> comparer, T value1, T value2)
+        {
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+            return comparer.Equals(value1, value) || comparer.Equals(value2, value);
+        }
+        public static bool IsOneOf<T>(this T value, T value1, T value2)
+        {
+            return IsOneOf(value, EqualityComparer<T>.Default, value1, value2);
+        }
+        public static bool IsOneOf<T>(this T value, IEqualityComparer<T> comparer, T value1, T value2, T value3)
+        {
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+            return comparer.Equals(value1, value) || comparer.Equals(value2, value) || comparer.Equals(value3, value);
+        }
+        public static bool IsOneOf<T>(this T value, T value1, T value2, T value3)
+        {
+            return IsOneOf(value, EqualityComparer<T>.Default, value1, value2, value3);
+        }
+
+        public static bool IsNotOneOf<T>(this T value, IEqualityComparer<T> comparer, params T[] values)
+        {
+            return !IsOneOf(value, comparer, values);
+        }
+        public static bool IsNotOneOf<T>(this T value, params T[] values)
+        {
+            return !IsOneOf(value, values);
+        }
+        public static bool IsNotOneOf<T>(this T value, IEqualityComparer<T> comparer, T value1)
+        {
+            return !IsOneOf(value, comparer, value1);
+        }
+        public static bool IsNotOneOf<T>(this T value, T value1)
+        {
+            return !IsOneOf(value, value1);
+        }
+        public static bool IsNotOneOf<T>(this T value, IEqualityComparer<T> comparer, T value1, T value2)
+        {
+            return !IsOneOf(value, comparer, value1, value2);
+        }
+        public static bool IsNotOneOf<T>(this T value, T value1, T value2)
+        {
+            return !IsOneOf(value, value1, value2);
+        }
+        public static bool IsNotOneOf<T>(this T value, IEqualityComparer<T> comparer, T value1, T value2, T value3)
+        {
+            return !IsOneOf(value, comparer, value1, value2, value3);
+        }
+        public static bool IsNotOneOf<T>(this T value, T value1, T value2, T value3)
+        {
+            return !IsOneOf(value, value1, value2, value3);
+        }
+        #endregion [ IsOneOf ]
     }
 }

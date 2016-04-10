@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using SharpDev.AspNet46;
+using SharpDev.EventSourcing;
 using SharpDev.Messaging;
 
 namespace SharpWebApi.Controllers
@@ -20,52 +21,95 @@ namespace SharpWebApi.Controllers
 
         public ICommandTranslatorProvider TranslatorProvider { get; set; }
 
+        public ICommandSenderProvider CommandSenderProvider { get; set; }
+
         [Route("command")]
         public async Task<IHttpActionResult> Post(CancellationToken ct)
         {
             /**
-            - TenantFinder: HttpRequest x HttpRequestContext -> Tenant
+            - TenantFinder:  HttpRequest x HttpRequestContext -> Tenant
             - CommandParser: Tenant -> HttpRequest -> ParsedCommand x CommandType x Version
-            - Translate: Tenant -> ParsedCommand x CommandType x Version -> CommandEnvelope
+            - Translator:    Tenant -> ParsedCommand x CommandType x Version -> CommandEnvelope
+            - Sender: Tenant -> CommandEnvelope -> HttpResult
             */
-            var watch = Stopwatch.StartNew();
 
+            // Get tenantId for current request
             var tenantId = await TenantFinder.FindTenantAsync(Request, RequestContext, ct);
             if (tenantId == null)
-                return StatusCode(HttpStatusCode.Forbidden);
+                return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Forbidden, "Unknown Tenant".ToModelStateErrors()));
 
+            //var multi = await Request.Content.ReadAsMultipartAsync();
+
+            // Parse incomming request as a command schema
             var parser = await ParserProvider.GetParserAsync(tenantId, ct);
             if (parser == null)
-                return Unauthorized();
+                return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.InternalServerError, "Can not parse request".ToModelStateErrors()));
 
             var parsedCommandResult = await parser.ParseAsync(Request, RequestContext, ct);
             if (!parsedCommandResult.Success)
                 return BadRequest(parsedCommandResult.Errors.ToModelStateErrors());
 
+            // Validate parsed command
             var translator = await TranslatorProvider.GetTranslatorAsync(tenantId, ct);
             if (translator == null)
-                return Unauthorized();
+                return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.InternalServerError, "Can not recognize command".ToModelStateErrors()));
 
             var translation = await translator.TranslateAsync(parsedCommandResult, ct);
             if (translation.Success)
             {
                 // Now send command through the ICommandSender
+                var sender = await CommandSenderProvider.GetSenderAsync(tenantId, ct);
+                if (sender == null)
+                    return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.InternalServerError,
+                            "Can not start processing command".ToModelStateErrors()));
 
-                watch.Stop();
-                var elapsed = watch.Elapsed.ToString("G");
-                return Ok($"Elapsed: {elapsed}");
+                var sendResult = await sender.SendCommandAsync(translation.CommandEnvelope, ct);
+                if (sendResult.Success)
+                {
+                    switch (sendResult.Type)
+                    {
+                        case SendCommandResultType.Completed:
+                            return Ok();
+                        case SendCommandResultType.Accepted:
+                            return StatusCode(HttpStatusCode.Accepted);
+                        default:
+                            return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.InternalServerError,
+                                "Invalid response processing command".ToModelStateErrors()));
+                    }
+                }
+                else
+                {
+                    switch (sendResult.Type)
+                    {
+                        case SendCommandResultType.ValidationFailed:
+                            return BadRequest(sendResult.Errors.ToModelStateErrors());
+                        case SendCommandResultType.BusinessPreconditionFailed:
+                            return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Forbidden, sendResult.Errors.ToModelStateErrors()));
+                        case SendCommandResultType.ProcessingError:
+                            return InternalServerError(sendResult.Exception);
+                        case SendCommandResultType.BusinessPostconditionFailed:
+                            return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Forbidden, sendResult.Errors.ToModelStateErrors()));
+                        case SendCommandResultType.PersistenceFailed:
+                            return InternalServerError(sendResult.Exception);
+                        default:
+                            return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.InternalServerError,
+                                "Invalid response processing command".ToModelStateErrors()));
+                    }
+                }
             }
-
-            switch (translation.Type)
+            else
             {
-                case TranslationResultType.BadRequest:
-                    return BadRequest(translation.ModelState.ToModelStateErrors());
-                case TranslationResultType.NotFound:
-                    return NotFound();
-                case TranslationResultType.Obsolete:
-                    return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Gone, translation.ModelState.ToModelStateErrors()));
-                default:
-                    return InternalServerError();
+                switch (translation.Type)
+                {
+                    case TranslationResultType.BadRequest:
+                        return BadRequest(translation.ModelState.ToModelStateErrors());
+                    case TranslationResultType.NotFound:
+                        return NotFound();
+                    case TranslationResultType.Obsolete:
+                        return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.Gone, translation.ModelState.ToModelStateErrors()));
+                    default:
+                        return new ResponseMessageResult(Request.CreateResponse(HttpStatusCode.InternalServerError, "Invalid response translating command".ToModelStateErrors()));
+                }
             }
         }
     }
