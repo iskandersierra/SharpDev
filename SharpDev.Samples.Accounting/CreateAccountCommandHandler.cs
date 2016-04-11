@@ -162,14 +162,4 @@ namespace SharpDev.Samples.Accounting
                 yield return new ValidationResult("Owner cannot be empty", MemberNames);
         }
     }
-
-    public class AccountCreateOwnerCannotBeEmpty
-    {
-        private static readonly string[] MemberNames = { "owner" };
-        public IEnumerable<ValidationResult> Validate(dynamic create)
-        {
-            if (!(create.owner != null))
-                yield return new ValidationResult("Owner cannot be empty", MemberNames);
-        }
-    }
 }

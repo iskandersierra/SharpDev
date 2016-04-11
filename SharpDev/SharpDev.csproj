@@ -97,6 +97,7 @@
     <Compile Include="Messaging\TranslationResult.cs" />
     <Compile Include="Messaging\TranslationResultType.cs" />
     <Compile Include="Modeling\DomainVersion.cs" />
+    <Compile Include="Modeling\IDataDescriptor.cs" />
     <Compile Include="Serialization\FileStreamProvider.cs" />
     <Compile Include="Serialization\CompressSerializer.cs" />
     <Compile Include="Serialization\IMetadataStore.cs" />
