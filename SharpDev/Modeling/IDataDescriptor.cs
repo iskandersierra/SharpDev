@@ -6,12 +6,15 @@ using System.Linq;
 
 namespace SharpDev.Modeling
 {
-    public interface IDataDescriptor
+    public interface IDataTypeDescriptor
     {
         string UniqueId { get; }
 
         string Name { get; }
+    }
 
+    public interface IDataDescriptor : IDataTypeDescriptor
+    {
         DataPropertyDescriptorCollection Properties { get; }
 
         object CreateInstance();
@@ -37,7 +40,13 @@ namespace SharpDev.Modeling
     {
         string Name { get; }
 
-        DataPropertyType Type { get; }
+        IDataDescriptor Owner { get; }
+
+        IDataTypeDescriptor Type { get; }
+
+        DataMultiplicity Multiplicity { get; }
+
+        IDataPropertyInstance FromInstance(object instance);
 
         // Single multiplicity
         object GetValue(object instance);
@@ -59,14 +68,34 @@ namespace SharpDev.Modeling
         int IndexOf(object instance, object value);
     }
 
-    public class DataPropertyType
+    public interface IDataPropertyInstance
     {
-        bool IsData { get; }
+        object Instance { get; }
+        IDataPropertyDescriptor Property { get; }
+    }
 
-        DataMultiplicity Multiplicity { get; }
+    public interface ISingleDataPropertyInstance : IDataPropertyInstance
+    {
+        object Value { get; set; }
+    }
 
-        IDataPropertyDescriptor DataType { get; }
+    public interface IEnumerableDataPropertyInstance : IDataPropertyInstance
+    {
+        IEnumerable Enumerate { get; }
+    }
 
+    public interface ISetDataPropertyInstance : IEnumerableDataPropertyInstance
+    {
+        ICollection<object> Set { get; }
+    }
+
+    public interface IListDataPropertyInstance : ISetDataPropertyInstance
+    {
+        IList<object> List { get; }
+    }
+
+    public interface IClrTypeDescriptor : IDataTypeDescriptor
+    {
         Type ClrType { get; }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FluentAssertions;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -44,7 +45,8 @@ namespace SharpDev.Modeling
         {
             var printed = ScenarioContext.Current.Get<string>("printed");
 
-            Assert.AreEqual(like, printed);
+            //Assert.AreEqual(like, printed);
+            printed.Should().Be(like);
         }
     }
 }

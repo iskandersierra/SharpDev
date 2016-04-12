@@ -96,6 +96,7 @@
     <Compile Include="Messaging\SingleCommandTranslatorProvider.cs" />
     <Compile Include="Messaging\TranslationResult.cs" />
     <Compile Include="Messaging\TranslationResultType.cs" />
+    <Compile Include="Modeling\DataDescriptorBuilder.cs" />
     <Compile Include="Modeling\DomainVersion.cs" />
     <Compile Include="Modeling\IDataDescriptor.cs" />
     <Compile Include="Serialization\FileStreamProvider.cs" />
